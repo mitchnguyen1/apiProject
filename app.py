@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from flask_cors import CORS
 import re
+from markupsafe import Markup
 
 app = Flask(__name__)
 CORS(app)
@@ -31,8 +32,29 @@ def run_script():
     cur.execute("TRUNCATE TABLE GHM")
 
     # Fetch data from the website
-    url = 'https://greenheartmeals.com/currentmenu/'
-    response = requests.get(url)
+    # Set the base URL
+    base_url = 'https://greenheartmeals.com/currentmenu/'
+
+    # Make a GET request to the base URL to follow the redirect
+    response = requests.get(base_url, allow_redirects=False)
+
+    # Get the value of the refresh header
+    refresh_header = response.headers.get('refresh')
+
+    # Extract the date from the refresh header using regular expressions
+    match = re.search(r'\?dd=(\d{4}-\d{2}-\d{2})', refresh_header)
+    if match:
+        date = match.group(1)
+    else:
+        raise Exception('Failed to extract date from refresh header.')
+
+    # Construct the final URL for the menu page
+    final_url = f'https://greenheartmeals.com/currentmenu/?dd={date}'
+
+    # Make a GET request to the final URL
+    response = requests.get(final_url)
+
+    # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # find the menu details
@@ -69,8 +91,12 @@ def run_script():
     # Close the database connection
     conn.close()
 
-    return 'Data successfully uploaded'
+    # Add newline character after each item in menu_items
+    menu_items_str = '\n'.join(str(item) for item in menu_items)
 
+    # Return the output with newlines using Markup
+    output = Markup(f'Data successfully uploaded<br><br>Menu items: <pre>{menu_items_str}</pre>')
+    return output
 
 # Get request
 @app.route('/ghm')
