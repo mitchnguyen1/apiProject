@@ -64,8 +64,6 @@ def run_script():
             cur.execute("INSERT INTO GHM (title, id, dd, img_url, description) VALUES (%s, %s, %s, %s, %s)", (title.text.strip(), id, dd, img_url, descr.text.strip()))
 
     # Commit the changes to the database
-    cur.execute(
-        "INSERT INTO GHM (title, id, dd, img_url, description) VALUES ('The Great Gatsby', 123, '2022-05-01', 'https:y.jpg','test.com')")
     conn.commit()
 
     # Close the database connection
