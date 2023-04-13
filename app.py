@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 # Post request
-@app.route('/')
+@app.route('/update')
 def run_script():
 
     # connect to the SQLite database
