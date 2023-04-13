@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-Jf1M97U6FKlUQ7aAn6zgzmV7SY0GZdHw7AdAFScCfJ6gXrO3+5AS5J5TW5O5zZhOJZMwab1+bfB8JvFQ7mCZYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .card{
+            border: 2px solid black;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-3">
@@ -17,7 +22,7 @@
         // Function to retrieve menu data from API endpoint
         function getMenuData() {
             // Replace API endpoint with your own
-            const url = "http://127.0.0.1:8080/ghm";
+            const url = "https://apiproject-i0ze.onrender.com/ghm";
 
             fetch(url)
                 .then(response => response.json())

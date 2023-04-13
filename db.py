@@ -46,6 +46,6 @@ def get_ghm_menu():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-
+#run on port 8080
 if __name__ == '__main__':
     app.run(port=8080)
