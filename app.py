@@ -8,6 +8,12 @@ import re
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def homePage():
+    return """
+        <a href="/update">/update</a> to update the database <br>
+        <a href="/ghm">/ghm</a> to get data from database
+        """
 
 # Post request
 @app.route('/update')
@@ -109,7 +115,7 @@ def get_ghm_menu():
     return response
 
 
-# run on port 8080
+# run on port 8080 for local test
 if __name__ == '__main__':
     app.run(port=8080)
 
